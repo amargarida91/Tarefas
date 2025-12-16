@@ -1,0 +1,284 @@
+/* Configurações Globais (Reset) */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Helvetica, sans-serif;
+    color: #333;
+}
+
+/* Estilo do Body (Fundo da Página) */
+body {
+    background-image: url("/Imag/pngtree-blue-geometric-business-minimalistic-business-card-background-image_237858.jpg");
+    background-position: center;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+
+button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button i {
+    pointer-events: none;
+}
+
+input, select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.hide {
+    display: none !important;
+}
+
+.todo-container {
+    max-width:70%;
+    margin: 4rem auto;
+    background-color: #aeecd5;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+.todo-container header h1 {
+    font-size: 2rem;
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1.5rem;
+    color: #102f5e;
+}
+
+#todo-form, #edit-form {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #ccc;
+}
+
+#todo-form p, #edit-form p {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.form-control {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.form-control input {
+    flex: 1;
+}
+
+#todo-form button {
+    background-color: #fdfdfd;
+    border: 2px solid #102f5e;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+}
+
+#todo-form button i {
+    color: #102f5e;
+}
+
+#todo-form button:hover {
+    background-color: #102f5e;
+}
+
+#todo-form button:hover i {
+    color: #fff;
+}
+
+#toolbar {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+#toolbar h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+#search, #filter {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#search form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+#search input {
+    flex: 1;
+}
+
+.todo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: transparent;
+    border-radius: 50px;
+    padding: 1rem 1.5rem;
+    margin: 0.8rem 0;
+    min-height: 60px;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+}
+
+.todo h3 {
+    color: #333;
+    font-size: 1.1rem;
+    margin: 0;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.todo.in-progress {
+    background-color: #61b43b;
+    color: #fff;
+    border-color: #61b43b;
+}
+
+.todo.in-progress h3 {
+    color: #fff;
+    text-decoration: none;
+}
+
+.todo.done {
+    background-color: #61b43b;
+    border-color: #61b43b; 
+    color: #fff;
+}
+.todo.done h3 {
+    text-decoration: line-through;
+    font-style: italic;
+    opacity: 1;
+    color: #fff;
+}
+.todo .actions {
+    display: flex;
+    gap: 0.8rem;
+}
+.todo .actions button {
+    background-color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.todo .actions button i {
+    color: #102f5e;
+    font-size: 1.4rem;
+}
+.todo .actions button:hover {
+    background-color: #e6e6e6;
+    transform: scale(1.05);
+}
+#edit-form #cancel-edit-btn {
+    margin-top: 1rem; 
+    padding: 0.5rem 1rem;
+    border: 1px solid #c02c2c;
+    border-radius: 4px;
+    background-color: #c02c2c;
+    color: #333;
+    font-weight: bold;
+    
+    display: block; 
+    width: fit-content; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+#edit-form #cancel-edit-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 6rem auto;
+    background-color: #fdfdfd;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-container h1 {
+    font-size: 1.8rem;
+    color: #102f5e; /* Cor azul do seu projeto */
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: left;
+}
+
+.form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.3rem;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#login-btn {
+    background-color: #102f5e; /* Cor azul do seu projeto */
+    color: #fff;
+    border: none;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+}
+
+#login-btn:hover {
+    background-color: #0d254b;
+}
+
+.register-link {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.register-link a {
+    color: #102f5e;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
