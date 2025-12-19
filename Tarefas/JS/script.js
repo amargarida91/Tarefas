@@ -12,6 +12,57 @@ const filterSelect = document.querySelector("#filter-select");
 
 let oldInputValue;
 
+// --- Persistence helpers (per-user, falls back to guest) ---
+const getCurrentUser = () => {
+    const u = localStorage.getItem("currentUser");
+    const user = (u && u !== 'null') ? u : 'guest';
+    console.debug('[TODO] currentUser ->', user);
+    return user;
+};
+const todosKeyForUser = (user) => `todos_${user}`;
+
+const persistTodos = () => {
+    const user = getCurrentUser();
+    if (!user) return;
+    if (!todoList) return;
+
+    const todos = [];
+    document.querySelectorAll("#todo-list .todo").forEach(todo => {
+        const titleEl = todo.querySelector("h3");
+        const text = titleEl ? titleEl.innerText : "";
+        const done = todo.classList.contains("done");
+        todos.push({ text, done });
+    });
+
+    try {
+        localStorage.setItem(todosKeyForUser(user), JSON.stringify(todos));
+        console.debug('[TODO] persisted', todosKeyForUser(user), todos);
+    } catch (err) {
+        console.error('[TODO] persist error', err);
+    }
+};
+
+const loadTodosForUser = () => {
+    const user = getCurrentUser();
+    if (!user) return;
+    if (!todoList) return;
+
+    try {
+        const raw = localStorage.getItem(todosKeyForUser(user));
+        console.debug('[TODO] loading key', todosKeyForUser(user), raw);
+        // clear only the todo-list container before injecting saved ones
+        if (todoList) todoList.innerHTML = '';
+        const saved = JSON.parse(raw || "[]");
+        saved.forEach(t => {
+            // add without triggering another persist
+            saveTodo(t.text, { done: !!t.done, persist: false });
+        });
+        console.debug('[TODO] loaded items', saved.length);
+    } catch (err) {
+        console.error('[TODO] load error', err);
+    }
+};
+
 const toggleForms = () => {
     
     todoForm.classList.toggle("hide");
@@ -36,9 +87,11 @@ const updateTodo = (text) => {
         let todoTitle = todo.querySelector("h3");
 
         // Encontra a tarefa com o título que corresponde ao valor salvo antes da edição
-        if (todoTitle && todoTitle.innerText === oldInputValue) {
+            if (todoTitle && todoTitle.innerText === oldInputValue) {
             todoTitle.innerText = text;
-        }
+                // persist after editing a todo
+                persistTodos();
+            }
     });
 };
 
@@ -108,25 +161,23 @@ const searchTodos = (callFilter = true) => {
     });
 };
 /**
-
- * @param {string} text 
+ * Create a todo element and append to the list.
+ * @param {string} text
+ * @param {{done?: boolean, persist?: boolean}} [options]
  */
-const saveTodo = (text) => {
- 
+const saveTodo = (text, options = {}) => {
+    const { done = false, persist = true } = options;
+
     const todo = document.createElement("div");
     todo.classList.add("todo");
-
 
     const todoTitle = document.createElement("h3");
     todoTitle.innerText = text;
     todo.appendChild(todoTitle);
 
-
     const actionsDiv = document.createElement("div");
     actionsDiv.classList.add("actions");
 
-  
-    
     const doneBtn = document.createElement("button");
     doneBtn.classList.add("toggle-done");
     doneBtn.innerHTML = '<i class="fas fa-check"></i>';
@@ -143,24 +194,30 @@ const saveTodo = (text) => {
     actionsDiv.appendChild(deleteBtn);
 
     todo.appendChild(actionsDiv);
-    
-  
-    todoList.appendChild(todo);
 
-    todoInput.value = "";
-    todoInput.focus();
-    
-    filterTodos(); 
-};
-todoForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+    if (done) todo.classList.add('done');
 
-    const inputValue = todoInput.value.trim();
+    if (todoList) todoList.appendChild(todo);
 
-    if (inputValue) {
-        saveTodo(inputValue);
+    if (todoInput) {
+        todoInput.value = "";
+        todoInput.focus();
     }
-});
+
+    filterTodos();
+    if (persist) persistTodos();
+};
+if (todoForm) {
+    todoForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const inputValue = todoInput.value.trim();
+
+        if (inputValue) {
+            saveTodo(inputValue);
+        }
+    });
+}
 document.addEventListener("click", (e) => {
     const targetEl = e.target;
     const parentEl = targetEl.closest(".todo"); 
@@ -175,14 +232,18 @@ document.addEventListener("click", (e) => {
         if (parentEl) {
             parentEl.classList.toggle("done");
             filterTodos(); // Reaplica o filtro após a mudança de status
+            // persist the change
+            persistTodos();
         }
-        return; 
+        return;
     }
     
 
     if (targetEl.classList.contains("delete-btn") || targetEl.closest(".delete-btn")) {
         if (parentEl) {
             parentEl.remove();
+            // persist after deleting a todo
+            persistTodos();
         }
         return;
     }
@@ -198,39 +259,147 @@ document.addEventListener("click", (e) => {
 });
 
 
-cancelEditBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    toggleForms(); 
-});
+if (cancelEditBtn) {
+    cancelEditBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        toggleForms(); 
+    });
+}
 
 
-editForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+if (editForm) {
+    editForm.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-    const editInputValue = editInput.value.trim();
+        const editInputValue = editInput.value.trim();
 
-    if (editInputValue) {
-        updateTodo(editInputValue);
+        if (editInputValue) {
+            updateTodo(editInputValue);
+        }
+        
+        toggleForms(); 
+    });
+}
+
+
+if (searchInput) {
+    searchInput.addEventListener("input", () => {
+        searchTodos();
+    });
+}
+
+if (eraseButton) {
+    eraseButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (searchInput) searchInput.value = "";
+        searchTodos(); 
+    });
+}
+
+if (filterSelect) {
+    filterSelect.addEventListener("change", () => {
+        filterTodos();
+    });
+}
+
+
+function login(event) {
+    event.preventDefault(); 
+
+    const userIn = document.getElementById("username").value.trim();
+    const passIn = document.getElementById("password").value.trim();
+    const errorMsg = document.getElementById("error-msg");
+
+    const usersList = JSON.parse(localStorage.getItem("users_list")) || [];
+    const validUser = usersList.find(u => u.username === userIn && u.password === passIn);
+
+    if (validUser || (userIn === "admin" && passIn === "123")) {
+        localStorage.setItem("authenticated", "true");
+        localStorage.setItem("currentUser", userIn);
+        
+        // Redireciona na mesma aba
+        window.location.href = "index.html"; 
+    } else {
+        if (errorMsg) {
+            errorMsg.style.display = "block";
+        } else {
+            alert("Utilizador ou senha incorretos!");
+        }
     }
+}
+
+// Liga o formulário à função ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+    const loginForm = document.querySelector("#login-form");
+    if (loginForm) {
+        loginForm.addEventListener("submit", login);
+    }
+    // load saved todos when the tasks page loads
+    try { if (typeof loadTodosForUser === 'function') loadTodosForUser(); } catch (err) { console.error('[TODO] load on ready error', err); }
+});
+
+// Logout button behavior: clear auth and redirect to login
+const logoutBtn = document.getElementById("logout-btn");
+if (logoutBtn) {
+    const isAuth = localStorage.getItem("authenticated") === "true";
+    if (!isAuth) {
+        logoutBtn.style.display = "none";
+    }
+    logoutBtn.addEventListener('click', e => {
+        e.preventDefault();
+        // ensure todos are saved for current user before logging out
+        try { persistTodos(); } catch (err) { /* ignore */ }
+        localStorage.removeItem('authenticated');
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+    });
     
-    toggleForms(); 
+
+// Save todos when user closes or reloads the page
+window.addEventListener('beforeunload', () => {
+    try { persistTodos(); } catch (err) { /* ignore */ }
 });
+}
 
+// Registration handling: save new users to localStorage
+const registerForm = document.getElementById("register-form");
+if (registerForm) {
+    registerForm.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-searchInput.addEventListener("input", () => {
-    searchTodos();
-});
+        const name = (document.getElementById("reg-name") || {}).value || "";
+        const username = (document.getElementById("reg-username") || {}).value || "";
+        const password = (document.getElementById("reg-password") || {}).value || "";
 
-eraseButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    searchInput.value = "";
-  
-    searchTodos(); 
-});
+        const trimmedName = name.trim();
+        const trimmedUsername = username.trim();
 
-filterSelect.addEventListener("change", () => {
-    filterTodos();
-});
+        if (!trimmedName || !trimmedUsername || password.length < 6) {
+            alert("Preencha todos os campos corretamente (senha mínimo 6 caracteres).");
+            return;
+        }
 
+        const usersList = JSON.parse(localStorage.getItem("users_list")) || [];
+        const exists = usersList.some(u => u.username === trimmedUsername);
+        if (exists) {
+            alert("Utilizador já existe. Escolha outro nome de utilizador.");
+            return;
+        }
 
-document.addEventListener('DOMContentLoaded', filterTodos);
+        usersList.push({ name: trimmedName, username: trimmedUsername, password });
+        localStorage.setItem("users_list", JSON.stringify(usersList));
+
+        // Redirect to login after successful registration
+        window.location.href = "login.html";
+    });
+}
+
+// Cancel button on registration page -> go back to login
+const cancelRegisterBtn = document.getElementById("cancel-register-btn");
+if (cancelRegisterBtn) {
+    cancelRegisterBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "login.html";
+    });
+}
+

@@ -7,12 +7,12 @@
     color: #333;
 }
 
-/* Estilo do Body (Fundo da Página) */
+/* Estilo Fundo da Página) */
 body {
-    background-image: url("/Imag/pngtree-blue-geometric-business-minimalistic-business-card-background-image_237858.jpg");
+    background-image: url("/Tarefas/Imag/18129294.jpg");
     background-position: center;
     background-size: cover;
-    min-height: 100vh;
+    min-height: 100%;
 }
 
 
@@ -41,7 +41,7 @@ input, select {
 .todo-container {
     max-width:70%;
     margin: 4rem auto;
-    background-color: #aeecd5;
+    background-color: #d5a6df;
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -166,8 +166,8 @@ input, select {
     color: #fff;
 }
 .todo.done h3 {
-    text-decoration: line-through;
-    font-style: italic;
+    text-decoration: none;
+    font-style: normal;
     opacity: 1;
     color: #fff;
 }
@@ -211,74 +211,245 @@ input, select {
 #edit-form #cancel-edit-btn:hover {
     background-color: #e0e0e0;
 }
+/*Estilos específicos para o Login */
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-card {
+            background: #d5a6df;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-card h2 { color: #29067a; margin-bottom: 1.5rem; }
+        .input-group { position: relative; margin-bottom: 1.2rem; text-align: left; }
+        .input-group i { position: absolute; left: 12px; top: 38px; color: #102f5e; }
+        .input-group input { 
+            width: 100%; padding: 0.8rem 0.8rem 0.8rem 2.5rem; 
+            border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;
+        }
+        #login-btn {
+            width: 100%; padding: 0.8rem; background: #102f5e;
+            color: #fff; border: none; border-radius: 8px;
+            font-size: 1.1rem; cursor: pointer; transition: 0.3s;
+        }
+        #login-btn:hover { background: #1a4a8d; }
+        #error-msg { color: #d9534f; font-size: 0.9rem; margin-top: 1rem; display: none; }
 
-.login-container {
-    max-width: 400px;
-    margin: 6rem auto;
-    background-color: #fdfdfd;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-.login-container h1 {
-    font-size: 1.8rem;
-    color: #102f5e; /* Cor azul do seu projeto */
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #ccc;
-}
-
-.login-container form {
+        /* Estilo do Botão Sair */
+header {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    text-align: left;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
-.form-group label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 0.3rem;
-    color: #333;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-#login-btn {
-    background-color: #102f5e; /* Cor azul do seu projeto */
-    color: #fff;
-    border: none;
-    padding: 0.8rem;
-    font-size: 1.1rem;
-    border-radius: 4px;
+#logout-btn {
+    background-color: transparent;
+    color: #102f5e;
+    border: 2px solid #102f5e; /* Borda um pouco mais grossa */
+    
+    /* Aumentando o tamanho */
+    padding: 10px 20px;      
+    font-size: 1.1rem;        
+    border-radius: 8px;    
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;              
+    transition: all 0.3s ease;
 }
 
-#login-btn:hover {
-    background-color: #0d254b;
+#logout-btn i {
+    font-size: 1.2rem;     
 }
 
-.register-link {
-    margin-top: 1.5rem;
+#logout-btn:hover {
+    background-color: #102f5e;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+
+.register-group {
+    display: flex;           
+    justify-content: center; 
+    align-items: center;     
+    gap: 8px;               
+    margin-top: 25px;     
     font-size: 0.9rem;
 }
 
-.register-link a {
+.register-group span {
+    color: #666;
+}
+
+.register-group a {
     color: #102f5e;
     text-decoration: none;
     font-weight: bold;
+    transition: color 0.3s;
 }
 
-.register-link a:hover {
+.register-group a:hover {
+    color: #1e4b8f;
     text-decoration: underline;
+}
+
+.register-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;        /* Espaço entre o texto e o link */
+    margin-top: 25px; /* Espaço para não colar no botão */
+    font-size: 0.9rem;
+}
+
+#register-btn {
+    width: 100%;
+    padding: 12px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: #102f5e; /* cor de fundo para ficar visível */
+}
+
+#register-btn:hover {
+    background-color: #1a4a8d; /* hover consistente com o botão de login */
+}
+/* Reset para garantir que o corpo ocupe a tela toda */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+}
+
+/* O segredo da centralização */
+.login-wrapper {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;     /* Centraliza verticalmente */
+    width: 100%;
+    height: 100vh;           /* Altura total da janela do navegador */
+    background-color: #f0f2f5;
+}
+
+/* O container (card) */
+.login-card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px; /* Largura do seu formulário */
+    text-align: center;
+}
+
+/* Registration card uses the tasks color palette */
+.register-card {
+    background: rgba(213,166,223,0.85); /* semi-transparent so background image shows */
+    color: #102f5e;
+}
+.register-card h2 { color: #102f5e; }
+.register-card .input-group i { color: #102f5e; }
+
+.cancel-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: transparent;
+    border: 2px solid #c02c2c;
+    color: #c02c2c;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.cancel-btn:hover { background: #c02c2c; color: #fff; }
+
+/* Login card: use tasks palette */
+.task-colors {
+    background: #d5a6df !important;
+    color: #102f5e;
+}
+.task-colors h2 { color: #102f5e; }
+.task-colors .input-group i { color: #102f5e; }
+.task-colors #login-btn { background: #102f5e; color: #fff; }
+.task-colors #login-btn:hover { background: #1a4a8d; }
+
+/* Specific background for the registration page */
+body.register-bg {
+    background-image: url("/Tarefas/Imag/18129294.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+/* Background específico para a página de login */
+body.login-bg {
+    background-image: url("/Tarefas/Imag/18129294.jpg");
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 100%;
+}
+
+/* Espaço Lado a Lado no rodapé */
+.register-group {
+    display: flex;
+    justify-content: center;
+    gap: 8px;         /* Espaço entre o texto e o link */
+    margin-top: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .todo-container {
+        max-width: 90%;
+        margin: 2rem auto;
+        padding: 1.5rem;
+    }
+    .todo {
+        padding: 0.8rem 1rem;
+        min-height: 50px;
+    }
+    .todo h3 { font-size: 1rem; }
+    .login-card { max-width: 360px; padding: 1.8rem; }
+    #toolbar { flex-direction: column; gap: 0.6rem; align-items: stretch; }
+}
+
+@media (max-width: 600px) {
+    .todo-container { margin: 1rem; padding: 1rem; }
+    .todo h3 {
+        white-space: normal; /* allow wrapping on small screens */
+        overflow: visible;
+        text-overflow: unset;
+    }
+    .form-control { flex-direction: column; gap: 0.6rem; }
+    .form-control input { width: 100%; }
+    #todo-form button, #login-btn, #register-btn { width: 100%; }
+    .todo .actions { gap: 0.4rem; }
+    .todo .actions button { width: 36px; height: 36px; }
+    .login-card { max-width: 320px; padding: 1.2rem; }
+    .login-wrapper { padding: 1rem; }
+}
+
+@media (max-width: 380px) {
+    .todo h3 { font-size: 0.95rem; }
+    .todo { padding: 0.6rem 0.8rem; }
+    .todo .actions button { width: 32px; height: 32px; font-size: 0.9rem; }
 }

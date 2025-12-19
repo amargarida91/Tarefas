@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta | Tarefas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/login.css">
+</head>
+<body class="register-bg">
+    <div class="login-wrapper"> 
+        <div class="login-card register-card">
+            <header class="login-header">
+                <i class="fa-solid fa-user-plus"></i>
+                <h2>Criar Conta</h2>
+            </header>
+
+            <form id="register-form">
+                <div class="input-group">
+                    <label for="reg-name">Nome Completo</label>
+                    <div class="input-field">
+                        <i class="fa-solid fa-id-card"></i>
+                        <input type="text" id="reg-name" placeholder="Digite o seu nome" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="reg-username">Utilizador</label>
+                    <div class="input-field">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="reg-username" placeholder="Ex: admin_jose" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="reg-password">Senha</label>
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" required minlength="6">
+                    </div>
+                </div>
+
+                <button type="submit" id="register-btn">Finalizar Registo</button>
+
+                <button type="button" id="cancel-register-btn" class="cancel-btn">Cancelar</button>
+
+                <div class="register-group">
+                    <span>Já tem uma conta?</span>
+                    <a href="login.html">Fazer Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="JS/script.js"></script>
+</body>
+</html>
